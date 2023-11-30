@@ -1,7 +1,7 @@
 [donnees] = import_data_from_csv("data_from_arduino.csv");
 [angles] = calculate_angles(donnees)
 %[time]= calculate_catch_time(donnees)
-
+figure(1)
 subplot(3,1,1)
 plot(rad2deg(angles(:,1)))
 title("Angle 1")
@@ -13,3 +13,16 @@ plot(rad2deg(angles(:,3)))
 title("Angle 3")
 
 
+figure(2)
+subplot(3,2,1)
+plot(donnees.sensor_2.acc(:,1))
+subplot(3,2,2)
+plot(donnees.sensor_2.acc(:,2))
+subplot(3,2,3)
+plot(donnees.sensor_2.acc(:,3))
+subplot(3,2,4)
+plot(donnees.sensor_1.acc(:,1))
+subplot(3,2,5)
+plot(donnees.sensor_1.acc(:,2))
+subplot(3,2,6)
+plot(donnees.sensor_1.acc(:,3))
