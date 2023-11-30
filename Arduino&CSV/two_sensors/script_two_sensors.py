@@ -22,9 +22,9 @@ with open(file_path, mode='w', newline='') as file:
     while True:
         line = ser.readline().decode("utf-8").strip()
         if line.startswith("Sensor_1"):
-            #print(line)
+            print(line)
             data = line.split(',')
             values = [float(val.split(':')[1]) for val in data[1:]]
-            writer.writerow(["1"] + values)
+            writer.writerow(values)
         else:
             continue
