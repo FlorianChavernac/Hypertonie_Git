@@ -22,8 +22,8 @@ with open(file_path, mode='w', newline='') as file:
     while True:
         line = ser.readline().decode("utf-8").strip()
         if line.startswith("Sensor_1"):
-            print(line)
             data = line.split(',')
+            print(data[1], data[12])
             values = [float(val.split(':')[1]) for val in data[1:]]
             writer.writerow(values)
         else:
