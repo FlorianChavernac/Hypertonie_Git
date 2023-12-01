@@ -1,30 +1,35 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
-#include <utility/imumaths.h>
+
+#define TCAADDR 0x70
 
 // Définir les capteurs BNO055
-Adafruit_BNO055 bno1 = Adafruit_BNO055(0, 0x28);  // Premier capteur à l'adresse 0x28
-Adafruit_BNO055 bno2 = Adafruit_BNO055(1, 0x29);  // Deuxième capteur à l'adresse 0x29
+Adafruit_BNO055 bno1 = Adafruit_BNO055(0);
+Adafruit_BNO055 bno2 = Adafruit_BNO055(1);
 
 void setup() {
   Serial.begin(115200);
+  Wire.begin();
 
-  // Initialiser les capteurs BNO055
-  if (!bno1.begin())
-  {
+  tcaselect(0);
+
+  // Initialisation des capteurs BNO055
+  if (!bno1.begin()) {
     Serial.println("Erreur d'initialisation du BNO055 1");
     while (1);
   }
+  
+  tcaselect(1);
 
-  if (!bno2.begin())
-  {
+  if (!bno2.begin()) { // Utilisation de l'adresse par défaut du capteur sur le multiplexeur
     Serial.println("Erreur d'initialisation du BNO055 2");
     while (1);
   }
 }
 
 void loop() {
+  tcaselect(0);  
   // Lire les données du premier capteur BNO055
   sensors_event_t event1;
   bno1.getEvent(&event1);
@@ -49,6 +54,7 @@ void loop() {
   Serial.print(",QuatY:"); Serial.print(quat.y());
   Serial.print(",QuatZ:"); Serial.print(quat.z());
 
+  tcaselect(1);  
   // Lire les données du deuxième capteur BNO055
   sensors_event_t event2;
   bno2.getEvent(&event2);
@@ -73,4 +79,12 @@ void loop() {
 
   // Attente correspondante à une fréquence de 100 Hz
   delay(10);
+}
+
+void tcaselect(uint8_t i) {
+  if (i > 7) return;
+ 
+  Wire.beginTransmission(TCAADDR);
+  Wire.write(1 << i);
+  Wire.endTransmission();  
 }
