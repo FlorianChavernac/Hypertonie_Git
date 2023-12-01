@@ -1,6 +1,7 @@
 import serial
 import csv
 import os
+import time
 
 serial_port = "COM3"  # Remplacez "x" par le numéro de votre port série
 
@@ -19,11 +20,29 @@ with open(file_path, mode='w', newline='') as file:
 
     ser = serial.Serial(serial_port, 115200, timeout=1)
 
-    while True:
+    calibration = True
+    start_time = time.time()
+
+    while calibration:
+        if time.time() - start_time > 10:
+            choice = input("Voulez-vous relancer la boucle de 10 secondes ? (O/N): ")
+            if choice.lower() != 'o':
+                calibration = False
+                break
+            else:
+                start_time = time.time()
+
         line = ser.readline().decode("utf-8").strip()
         if line.startswith("Sensor_1"):
             data = line.split(',')
             print(data[1], data[12])
+        else:
+            continue
+
+    while True:
+        line = ser.readline().decode("utf-8").strip()
+        if line.startswith("Sensor_1"):
+            data = line.split(',')
             values = [float(val.split(':')[1]) for val in data[1:]]
             writer.writerow(values)
         else:
