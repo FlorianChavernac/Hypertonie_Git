@@ -11,7 +11,8 @@ file_path = os.path.join(data_dir, "data_from_arduino.csv")  # Chemin complet ve
 
 header = [
     "Calibration_1", "AccX_1", "AccY_1", "AccZ_1", "Roll_1", "Pitch_1", "Yaw_1", "QuatW_1", "QuatX_1", "QuatY_1", "QuatZ_1",
-    "Calibration_2", "AccX_2", "AccY_2", "AccZ_2", "Roll_2", "Pitch_2", "Yaw_2", "QuatW_2", "QuatX_2", "QuatY_2", "QuatZ_2"
+    "Calibration_2", "AccX_2", "AccY_2", "AccZ_2", "Roll_2", "Pitch_2", "Yaw_2", "QuatW_2", "QuatX_2", "QuatY_2", "QuatZ_2",
+    "Time"
 ]
 
 with open(file_path, mode='w', newline='') as file:
@@ -27,6 +28,7 @@ with open(file_path, mode='w', newline='') as file:
         if time.time() - start_time > 10:
             choice = input("Voulez-vous relancer la boucle de 10 secondes ? (O/N): ")
             if choice.lower() != 'o':
+                start_time = time.time()
                 calibration = False
                 break
             else:
@@ -44,6 +46,6 @@ with open(file_path, mode='w', newline='') as file:
         if line.startswith("Sensor_1"):
             data = line.split(',')
             values = [float(val.split(':')[1]) for val in data[1:]]
-            writer.writerow(values)
+            writer.writerow(values+[time.time()- start_time])
         else:
             continue
