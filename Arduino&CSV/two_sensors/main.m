@@ -1,5 +1,5 @@
 [donnees] = import_data_from_csv("data_from_arduino.csv");
-[angles] = calculate_angles(donnees)
+[angles] = calculate_angles(donnees);
 figure(1)
 subplot(3,1,1)
 plot(donnees.time, angles(:,1)+180)
@@ -28,5 +28,5 @@ plot(donnees.time, donnees.sensor_1.acc(:,2))
 subplot(3,2,6)
 plot(donnees.time, donnees.sensor_1.acc(:,3))
 
-[angle_catch, max_amplitude]=detect_catch(donnees, angles)
+[angle_catch, max_amplitude]=detect_catch(donnees, angles);
 

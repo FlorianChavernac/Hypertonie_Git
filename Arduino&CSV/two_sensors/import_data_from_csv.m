@@ -1,7 +1,7 @@
 function result = import_data_from_csv(fichier)
     cd("../data");
 
-    % Importation des données à partir du fichier CSV data_from_arduino.csv
+    % Importation des données à partir du fichier CSV ;data_from_arduino.csv
     data = readtable(fichier); % Charge toutes les données du fichier CSV
     data = table2array(data); % Convertit les données en tableau
 
