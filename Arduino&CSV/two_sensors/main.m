@@ -2,15 +2,15 @@
 [angles] = calculate_angles(donnees)
 figure(1)
 subplot(3,1,1)
-plot(donnees.time, rad2deg(angles(:,1)))
+plot(donnees.time, angles(:,1)+180)
 title("Angle 1")
 xlabel("Temps (s)")
 ylabel("Angle (degrés)")
 subplot(3,1,2)
-plot(donnees.time, rad2deg(angles(:,2)))
+plot(donnees.time, angles(:,2))
 title("Angle 2")
 subplot(3,1,3)
-plot(donnees.time, rad2deg(angles(:,3)))
+plot(donnees.time, angles(:,3))
 title("Angle 3")
 
 
